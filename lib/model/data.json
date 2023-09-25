@@ -1,0 +1,25 @@
+{
+    "lineChart": [
+      {"x": "Jan", "y": 30},
+      {"x": "Feb", "y": 40},
+      {"x": "Mar", "y": 25},
+      {"x": "Apr", "y": 50},
+      {"x": "May", "y": 45},
+      {"x": "Jun", "y": 60}
+    ],
+    "pieChart": [
+      {"category": "Category A", "value": 30},
+      {"category": "Category B", "value": 40},
+      {"category": "Category C", "value": 25},
+      {"category": "Category D", "value": 50}
+    ],
+    "barChart": [
+      {"x": "Jan", "y": 30},
+      {"x": "Feb", "y": 40},
+      {"x": "Mar", "y": 25},
+      {"x": "Apr", "y": 50},
+      {"x": "May", "y": 45},
+      {"x": "Jun", "y": 60}
+    ]
+  }
+  
