@@ -1,78 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
-import 'user/login.dart';
-void main() {
-  runApp(const welcomeApp());
-}
+// Assuming Loginscreen is correctly imported and defined elsewhere in your project.
 
-// ignore: camel_case_types
-class welcomeApp extends StatelessWidget {
-  const welcomeApp({super.key});
+class Welcome extends StatefulWidget {
+  const Welcome({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'GeoWell',
-      debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
-    );
-  }
+  State<Welcome> createState() => _WelcomeState();
 }
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+
+class _WelcomeState extends State<Welcome> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Loginscreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: 
-          Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          const SizedBox(height: 150,),
-            Text(
-              "GEOWELL",
-              style: GoogleFonts.montserrat(
-                  color:Colors.blueAccent,
-                  fontSize: 42,
-                  fontWeight: FontWeight.bold),
+            LottieBuilder.asset(
+              'assets/CHICHAT.json',
+              height: 100,
             ),
-            Text(
-              "ADVISOR",
-              style: GoogleFonts.montserrat(
-                  color: Colors.white,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold),
+            Shimmer.fromColors(
+              baseColor: Colors.blue[300]!,
+              highlightColor: Colors.green[100]!,
+              child: Text(
+                "GEOWELL ADVISOR", // Updated text here
+                style: GoogleFonts.montserrat(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
-            const SizedBox(height: 10,),
-            Lottie.asset('assets/animation_lm9enjzd.json',height: 100),
-            const SizedBox(height: 30,),
-          Center(
-                  
-                    child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(32.0),
-                                  
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const LoginPage()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                                  maximumSize: const Size.fromHeight(double.infinity),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0))),
-                        child:  const Text('Get Started!')),
-                                  ),
-                  ),
-              
-            
-       ] ),
-     
+          ],
+        ),
+      ),
     );
   }
 }
