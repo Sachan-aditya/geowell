@@ -1,127 +1,226 @@
-import 'dart:io';
-import 'dart:developer';
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geowell/screens/home.dart';
+import 'package:geowell/screens/tani.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
-class Loginscreen extends StatefulWidget {
-  const Loginscreen({Key? key}) : super(key: key);
-
-  @override
-  State<Loginscreen> createState() => _LoginscreenState();
+void main() {
+  runApp(const logiApp());
 }
 
-class _LoginscreenState extends State<Loginscreen> {
-  void googleButton() {
-    Dialogs.showProgressbar(context);
+class logiApp extends StatelessWidget {
+  const logiApp({super.key});
 
-    signInWithGoogle().then((user) {
-      Navigator.pop(context);
-      if (user != null) {
-        log('User: ${user.user?.displayName ?? user.user?.email ?? "Unknown"}');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) =>HomePage())
-        );
-      }
-    });
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Geowell',
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool _isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoggedInStatus();
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
-    try {
-      await InternetAddress.lookup("google.com");
-
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      Dialogs.showSnackbar(context, "No Internet Connection");
-      return null;
+  Future<void> _checkLoggedInStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool loggedIn = prefs.getBool('loggedIn') ?? false;
+    if (loggedIn) {
+      _navigateToHomePage();
     }
+  }
+
+  void _navigateToHomePage() {
+    setState(() {
+      _isLoggedIn = true;
+    });
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  }
+
+  void _showLoginResultDialog(bool success) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(success ? 'Login Successful' : 'Login Failed'),
+          content: Text(
+            success
+                ? 'You have successfully logged in.'
+                : 'Login failed. Try Login with Email.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    Size mq = MediaQuery.of(context).size;
-
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(255, 255, 241, 214),
-              Color.fromARGB(255, 255, 255, 255),
-            ],
-          ),
-        ),
-        child: Stack(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Positioned(
-              top: mq.height * 0.3,
-              left: mq.width * 0.25,
-              width: mq.width * 0.5,
-              child: Image.asset('assets/bat.png'),
+            Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.blue[300]!,
+              child: Text(
+                "Connect With US !", // Updated text here
+                style: GoogleFonts.montserrat(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
-            Positioned(
-              top: mq.height * 0.6,
-              left: mq.width * 0.16,
-              width: mq.width * 0.7,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => SignInScreen()),
-                  );
+            Shimmer.fromColors(
+              baseColor: const Color.fromARGB(255, 255, 196, 108),
+              highlightColor: Colors.white,
+              child: Text(
+                "भारत का अपना एप", // Updated text here
+                style: GoogleFonts.montserrat(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Image.asset(
+              'assets/first.png',
+              height: 200,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const  LogApp()),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.mail,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('Login with Email',
+                        style: TextStyle(color: Colors.white)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            if (!_isLoggedIn)
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    final GoogleSignInAccount? googleUser =
+                        await GoogleSignIn().signIn();
+
+                    if (googleUser == null) {
+                      return;
+                    }
+
+                    final GoogleSignInAuthentication googleAuth =
+                        await googleUser.authentication;
+                    final AuthCredential credential =
+                        GoogleAuthProvider.credential(
+                      accessToken: googleAuth.accessToken,
+                      idToken: googleAuth.idToken,
+                    );
+
+                    final UserCredential authResult =
+                        await FirebaseAuth.instance.signInWithCredential(
+                            credential);
+                    final User? user = authResult.user;
+
+                    if (user != null) {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('loggedIn', true);
+
+                      _showLoginResultDialog(true);
+
+                      _navigateToHomePage();
+                    } else {
+                      _showLoginResultDialog(false);
+                    }
+                  } catch (e) {
+                    _showLoginResultDialog(false);
+                  }
                 },
-                icon: const Icon(Icons.mail, size: 50, color: Colors.black),
-                label: const Text(
-                  "Login with E-Mail",
-                  style: TextStyle(color: Colors.black),
-                ),
                 style: ElevatedButton.styleFrom(
-                  shape: const StadiumBorder(),
-                  backgroundColor:Colors.white,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.black,
+                  padding: const EdgeInsets.all(20.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: const BorderSide(color: Colors.white),
+                  ),
                 ),
-              ),
-            ),
-            Positioned(
-              top: mq.height * 0.7,
-              left: mq.width * 0.16,
-              width: mq.width * 0.7,
-              child: ElevatedButton.icon(
-                onPressed: googleButton,
-                icon: Image.asset('assets/download.png'),
-                label: const Text(
-                  "Login with Google",
-                  style: TextStyle(color: Colors.black),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.network(
+                      'https://img.icons8.com/?size=96&id=V5cGWnc9R4xj&format=png',
+                      width: 20,
+                    ),
+                    const SizedBox(width: 8.0),
+                    const Text(
+                      'Login with Google',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  shape: const StadiumBorder(),
-                  shadowColor: Colors.black,
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ),
+              )
           ],
         ),
       ),
     );
   }
 }
-

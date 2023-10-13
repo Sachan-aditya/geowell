@@ -19,7 +19,7 @@ class _WelcomeState extends State<Welcome> {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => Loginscreen()),
       );
     });
   }
