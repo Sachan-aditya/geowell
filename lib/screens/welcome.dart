@@ -27,6 +27,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,8 +37,8 @@ class _WelcomeState extends State<Welcome> {
           height: 30,
         ),
             Shimmer.fromColors(
-              baseColor: Colors.blue[300]!,
-              highlightColor: Colors.white,
+              baseColor: Colors.white,
+              highlightColor: Colors.blue[300]!,
               child: Text(
                 "GEOWELL ADVISOR", // Updated text here
                 style: GoogleFonts.montserrat(

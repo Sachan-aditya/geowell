@@ -5,6 +5,7 @@ import 'package:geowell/screens/tani.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 void main() {
   runApp(const logiApp());
@@ -90,23 +91,26 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.blue[300]!,
               child: Text(
-                "CONNECT WITH US!",
+                "Connect With US !", // Updated text here
                 style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            Text(
-              "भारत का अपना एप",
-              style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                color: Colors.blueAccent,
+            Shimmer.fromColors(
+              baseColor: const Color.fromARGB(255, 255, 196, 108),
+              highlightColor: Colors.white,
+              child: Text(
+                "भारत का अपना एप", // Updated text here
+                style: GoogleFonts.montserrat(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             const SizedBox(
