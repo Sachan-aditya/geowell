@@ -93,9 +93,9 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Shimmer.fromColors(
               baseColor: Colors.white,
-              highlightColor: Colors.blue[300]!,
+              highlightColor: Colors.white,
               child: Text(
-                "Connect With US !", // Updated text here
+                "Connect With US !",
                 style: GoogleFonts.montserrat(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
@@ -103,10 +103,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Shimmer.fromColors(
-              baseColor: const Color.fromARGB(255, 255, 196, 108),
-              highlightColor: Colors.white,
+              baseColor: Colors.blue[300]!,
+              highlightColor: Colors.blue[300]!,
               child: Text(
-                "भारत का अपना एप", // Updated text here
+                "भारत का अपना एप",
                 style: GoogleFonts.montserrat(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
@@ -117,47 +117,39 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             Image.asset(
-              'assets/first.png',
+              'assets/undraw.png',
               height: 200,
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            InkWell(
-              onTap: () {
+            ElevatedButton.icon(
+              onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const  LogApp()),
+                  MaterialPageRoute(builder: (context) => const LogApp()),
                 );
               },
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.black,
+                onPrimary: Colors.white,
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
+                  side: const BorderSide(color: Colors.white),
                 ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.mail,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text('Login with Email',
-                        style: TextStyle(color: Colors.white)),
-                  ],
-                ),
+              ),
+              icon: Icon(
+                Icons.mail,
+                color: Colors.white,
+              ),
+              label: Text(
+                'Login with Email',
+                style: TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(height: 10),
             if (!_isLoggedIn)
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () async {
                   try {
                     final GoogleSignInAccount? googleUser =
@@ -177,7 +169,8 @@ class _LoginPageState extends State<LoginPage> {
 
                     final UserCredential authResult =
                         await FirebaseAuth.instance.signInWithCredential(
-                            credential);
+                      credential,
+                    );
                     final User? user = authResult.user;
 
                     if (user != null) {
@@ -195,29 +188,22 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.all(20.0),
+                  primary: Colors.black,
+                  onPrimary: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                     side: const BorderSide(color: Colors.white),
                   ),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.network(
-                      'https://img.icons8.com/?size=96&id=V5cGWnc9R4xj&format=png',
-                      width: 20,
-                    ),
-                    const SizedBox(width: 8.0),
-                    const Text(
-                      'Login with Google',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
+                icon: Image.asset('assets/google.png',
+                  width: 20,
+                  height: 20,
                 ),
-              )
+                label: const Text(
+                  'Login with Google',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
           ],
         ),
       ),
