@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       title: 'GeoWell',
       initialRoute: initialRoute,
       routes: {
-        '/welcome': (context) => const welcomeApp(),
+        '/welcome': (context) => const Welcome(),
         '/signup': (context) => const LogApp(),
         '/homeyApp': (context) => FutureBuilder<bool>(
               future: isLoggedIn(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geowell/screens/user/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
@@ -18,7 +19,7 @@ class _WelcomeState extends State<Welcome> {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const Loginscreen()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     });
   }
@@ -30,13 +31,13 @@ class _WelcomeState extends State<Welcome> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LottieBuilder.asset(
-              'assets/CHICHAT.json',
-              height: 100,
-            ),
+           Lottie.asset('assets/animation_lm9enjzd.json', height: 100),
+        const SizedBox(
+          height: 30,
+        ),
             Shimmer.fromColors(
               baseColor: Colors.blue[300]!,
-              highlightColor: Colors.green[100]!,
+              highlightColor: Colors.white,
               child: Text(
                 "GEOWELL ADVISOR", // Updated text here
                 style: GoogleFonts.montserrat(
@@ -51,3 +52,5 @@ class _WelcomeState extends State<Welcome> {
     );
   }
 }
+
+
