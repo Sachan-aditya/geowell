@@ -43,7 +43,40 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> fetchDataFromAPI() async {
-    // ... (unchanged)
+    try {
+      // Replace this with your actual API endpoint and data
+      final response = await http.post(
+        Uri.parse("https://047pegasus.pythonanywhere.com/predict"),
+        body: jsonEncode({
+          "latitude": 40,
+          "longitude": -71.7,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        setState(() {
+          value1 = jsonData['expectedDischarge'] / 100;
+          value2 = jsonData['qualityIndex'] * 100;
+          barValue = jsonData['minDepthEncounter'];
+          waterWellConstruct = jsonData['WaterWellConstruct'];
+          drillingTechnique = jsonData['drillTech'];
+          errorMessage = '';
+        });
+      } else {
+        setState(() {
+          errorMessage =
+              'Failed to fetch data. Status code: ${response.statusCode}';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error: $e';
+      });
+    }
   }
 
   @override
@@ -58,10 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.transparent,
         elevation: 3,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const  Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => const HomeyApp()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_)=> const HomeyApp())); // This will navigate back
           },
         ),
       ),
@@ -119,17 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color.fromARGB(255, 3, 25, 43),
-                      Colors.black,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                color: Colors.black,
                 height: 300,
                 width: 300,
                 child: SfCartesianChart(
@@ -187,17 +209,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget buildDoughnutChart(
       String label, double chartValue, Color segmentColor, Color restColor) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            segmentColor,
-            restColor,
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
       width: 150,
       height: 150,
       child: SfCircularChart(
@@ -243,10 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               width: 20,
               height: 20,
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(5),
-              ),
+              color: color,
             ),
             const SizedBox(width: 8),
             Text(
