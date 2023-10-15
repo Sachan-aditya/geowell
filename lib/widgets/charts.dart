@@ -246,26 +246,24 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildLegendItem(String label, Color color) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              color: color,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            color: color,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12.0,
             ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12.0,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
