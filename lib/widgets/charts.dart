@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 void main() {
-  runApp(cMyApp());
+  runApp( const cMyApp());
 }
 
 class cMyApp extends StatelessWidget {
@@ -252,6 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Container(
             width: 20,
+
             height: 20,
             color: color,
           ),
