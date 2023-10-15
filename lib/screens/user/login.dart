@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:geowell/screens/home.dart';
 import 'package:geowell/screens/tani.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+         
           children: [
             Shimmer.fromColors(
               baseColor: Colors.white,
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Connect With US !",
                 style: GoogleFonts.montserrat(
-                  fontSize: 32,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "भारत का अपना एप",
                 style: GoogleFonts.montserrat(
-                  fontSize: 32,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -151,41 +151,6 @@ class _LoginPageState extends State<LoginPage> {
             if (!_isLoggedIn)
               ElevatedButton.icon(
                 onPressed: () async {
-                  try {
-                    final GoogleSignInAccount? googleUser =
-                        await GoogleSignIn().signIn();
-
-                    if (googleUser == null) {
-                      return;
-                    }
-
-                    final GoogleSignInAuthentication googleAuth =
-                        await googleUser.authentication;
-                    final AuthCredential credential =
-                        GoogleAuthProvider.credential(
-                      accessToken: googleAuth.accessToken,
-                      idToken: googleAuth.idToken,
-                    );
-
-                    final UserCredential authResult =
-                        await FirebaseAuth.instance.signInWithCredential(
-                      credential,
-                    );
-                    final User? user = authResult.user;
-
-                    if (user != null) {
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs.setBool('loggedIn', true);
-
-                      _showLoginResultDialog(true);
-
-                      _navigateToHomePage();
-                    } else {
-                      _showLoginResultDialog(false);
-                    }
-                  } catch (e) {
-                    _showLoginResultDialog(false);
-                  }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,

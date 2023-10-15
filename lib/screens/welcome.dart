@@ -42,7 +42,7 @@ class _WelcomeState extends State<Welcome> {
               child: Text(
                 "GEOWELL ADVISOR", // Updated text here
                 style: GoogleFonts.montserrat(
-                  fontSize: 32,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
