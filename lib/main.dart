@@ -15,7 +15,7 @@ void main() async {
 
   // Check if the user is logged in and set the initial route accordingly
   bool userLoggedIn = await isLoggedIn();
-  String initialRoute = userLoggedIn ? '/homeyApp' : '/login';
+  String initialRoute = userLoggedIn ? '/homeyApp' : '/welcome';
 
   runApp(
     ProviderScope(
